@@ -19,7 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
+Route::get('/', [HomeController::class, 'index']);//
 // Cart and Checkout Routes
 Route::resource('cart', CartController::class)->only(['index', 'store', 'destroy']);
 Route::put('/cart/update-item/{id}', [CartController::class, 'updateItem'])->name('cart.updateItem');
@@ -100,3 +100,19 @@ Route::name("reviews.")->prefix("reviews")->group(function () {
     Route::delete('/delete/{review}', [ReviewController::class, 'destroy'])->name('destroy');
 
 });
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
