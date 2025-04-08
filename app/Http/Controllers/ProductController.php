@@ -90,6 +90,7 @@ class ProductController extends Controller
         $product->save();
         $product->categories()->attach($request->category_id);
 
-        return view('welcome', compact('product'));
+        return view('welcome', ['products' => Product::all()]);//mischien weghalen
+
     }
 }

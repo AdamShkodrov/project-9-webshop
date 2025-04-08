@@ -59,6 +59,15 @@
                     <option value="ideal">iDEAL</option>
                 </select>
             </div>
+        <div class="mb-6">
+            <h2 class="text-xl font-semibold">Kortingsbon toepassen</h2>
+            <form action="{{ route('checkout.process') }}" method="POST" id="checkout-form">
+                @csrf
+                <div class="mb-4">
+                    <label for="coupon_code" class="block font-medium">Kortingscode:</label>
+                    <input type="text" id="coupon_code" name="coupon_code" placeholder="Voer kortingscode in" class="w-full border-gray-300 rounded-md shadow-sm">
+                </div>
+
             <button type="submit" class="bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 transition duration-200">
                 Betaal Nu
             </button>
