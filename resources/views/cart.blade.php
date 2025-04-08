@@ -79,15 +79,6 @@
             <p class="text-center text-gray-600">Je winkelwagen is leeg.</p>
         @endif
     </div>
-
-        @php
-            // als totaal < €50 dan €5, anders gratis
-            $shippingCost = $total < 50 ? 5.00 : 0.00;
-        @endphp
-        <p><strong>Verzendkosten: €{{ number_format($shippingCost, 2) }}</strong></p>
-        <p><strong>Totaal met verzendkosten: €{{ number_format($total + $shippingCost, 2) }}</strong></p>
-
-
 </body>
 </html>
 </x-base-layout>

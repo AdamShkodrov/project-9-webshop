@@ -19,7 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
+Route::get('/', [HomeController::class, 'index']);
 // Cart and Checkout Routes
 Route::resource('cart', CartController::class)->only(['index', 'store', 'destroy']);
 Route::put('/cart/update-item/{id}', [CartController::class, 'updateItem'])->name('cart.updateItem');

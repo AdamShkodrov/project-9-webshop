@@ -28,9 +28,6 @@
                             </div>
 
                         <img src="https://via.placeholder.com/300" class="card-img-top" alt="Product 1">
-                        <div class="card-body">
-                            <a href="{{ route('products.addToCart', $product->id) }}" class="btn btn-primary">Add to Cart</a>
-                        </div>
                         
                     </div>
                 </a>
