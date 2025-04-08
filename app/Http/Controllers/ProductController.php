@@ -9,6 +9,7 @@ use App\Models\Product;
 
 class ProductController extends Controller
 {
+
     public function index()
     {
         $products = Product::all();
@@ -81,7 +82,7 @@ class ProductController extends Controller
         return redirect('/products');
     }
 
-    private function save(Product $product, Request $request)
+    private function save(Product $product, ProductRequest $request)
     {
         $product->name = $request->name;
         $product->description = $request->description;
@@ -92,5 +93,12 @@ class ProductController extends Controller
 
         return view('welcome', ['products' => Product::all()]);//mischien weghalen
 
+    }
+
+    public function detail(Product $product)
+    {
+        $categories = Category::all();
+
+        return view('products.detail', compact('product', 'categories'));
     }
 }

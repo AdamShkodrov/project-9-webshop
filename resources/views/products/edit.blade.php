@@ -35,13 +35,17 @@
         </div>
 
         <div>
-            <label for="category_id">Category</label>
-            <select name="category_id" id="category_id">
+            <label class="block text-sm font-medium text-gray-700">Categories</label>
+            <div class="space-y-2 mt-2">
                 @foreach ($categories as $category)
-                <option value="{{ $category->id }}">{{ $category->name }}</option>    
+                <div class="flex items-center">
+                    <input type="checkbox" name="category_id[]" value="{{ $category->id }}" class="mr-2 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                    <label for="category_{{ $category->id }}" class="text-gray-800">{{ $category->name }}</label>
+                </div>
                 @endforeach
-            </select>
+            </div>
         </div>
+        
 
         <button type="submit">
             Bewerken

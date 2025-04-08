@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Models\User;
+use App\Models\Product;
 use App\Models\Role;
 use Illuminate\Http\Request;
 
@@ -10,71 +12,67 @@ class UserController extends Controller
 {
     public function index()
     {
-
         $users = User::all();
-
-        return view('users.index' , compact('users'));
+    
+        return view('users.index', compact('users'));
     }
 
     public function create()
     {
-
-        
-
-        return view('users.create');
-    }
-
-    public function store(Request $request)
-    {
-       User::create($request->all());
+        $roles = Role::all(); // If you want to relate users to products, you can include products here.
     
-
-        return redirect()->route('users.index');
+        return view('users.create', compact('roles'));
     }
 
-    public function edit($id)
+    public function store(UserRequest $request)
     {
-        $users =  User::findorFail($id);
-        $roles = Role::all();
-        
-        
-        return view('users.edit', compact('users' , 'roles'));
+        $user = new User();
+    
+        $this->save($user, $request);
+    
+        return redirect('/users');
     }
 
-    public function update(Request $request, $id)
+    public function show($user)
     {
-
-
-        // dd($request->all());
-       
-        $user = User::findorfail($id);
-        $roles = Role::all();
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-        
-        ]);
-        $user->update($request->all()); 
-        $user->roles()->sync($request->roles);  
-        return redirect()->route('users.index');
-    }
-
-    public function destroy($id)
-    {
-        $users = User::findorFail($id);
-
-        $users->delete();
-       
-       
-        
-        return redirect()->route('users.index');
-    }
-
-    public function show($id)
-    {
-        $user = User::find($id);
-
+        $user = User::find($user);
+        $roles = Role::all(); // If needed, you can pass related products here.
+    
         return view('users.show', compact('user'));
     }
-}
 
+    public function edit(User $users)
+    {
+        $user = User::findorfail($users->id);
+        $roles = Role::all();
+
+        return view('users.edit', compact('user', 'roles'));
+    }
+
+    public function update(UserRequest $request, User $user)
+    {
+        $this->save($user, $request);
+    
+        return redirect('/users');
+    }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+    
+        return redirect('/users');
+    }
+
+    private function save(User $user, Request $request)
+    {
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password); // Hash the password before saving it.
+        $user->save();
+
+        // If users have a relationship with products (like attaching products), you can do it here.
+        if ($request->has('product_id')) {
+            $user->products()->attach($request->product_id);
+        }
+    }
+}

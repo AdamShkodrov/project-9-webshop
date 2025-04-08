@@ -20,7 +20,7 @@
     <nav class="bg-blue-900 p-4">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <!-- Logo -->
-            <a class="text-white text-2xl font-bold" href="">De Webshop</a>
+            <a class="text-white text-2xl font-bold" href="/">De Webshop</a>
             
             <!-- Button for mobile view -->
             <button class="text-white md:hidden" id="navbar-toggle">
@@ -34,6 +34,8 @@
                 <a class="hover:text-yellow-500" href="/coupons">Coupons</a>
                 <a class="hover:text-yellow-500" href="/roles">Rollen</a>
                 <a class="hover:text-yellow-500" href="/users">Gebruikers</a>
+                <a class="hover:text-yellow-500" href="/reviews">Reviews</a>
+                <a class="hover:text-yellow-500" href="/cart">&#xF242;</a>
             </div>
         </div>
     </nav>

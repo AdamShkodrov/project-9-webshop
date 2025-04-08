@@ -3,9 +3,15 @@
         <!-- Centered Heading -->
         <h1 class="text-3xl font-bold text-gray-800">Alle Producten</h1>
     </div>
-
+    
     <!-- Lijst van producten -->
     <div class="container mx-auto p-6 bg-white shadow-lg rounded-lg">
+        <div class="mt-6 flex justify-center mb-6">
+            <a href="{{ route('products.create') }}" class="bg-green-500 text-white px-6 py-3 rounded-md hover:bg-green-600 transition duration-200 ease-in-out">
+                Maak een nieuw product
+            </a>
+        </div>
+        
         <ul class="space-y-4">
             @foreach ($products as $product)
             <li class="flex justify-between items-center bg-gray-100 p-4 rounded-lg shadow-md hover:bg-gray-200 transition duration-200 ease-in-out">
@@ -41,11 +47,6 @@
         </ul>
 
         <!-- Centered Create Product Button -->
-        <div class="mt-6 flex justify-center">
-            <a href="{{ route('products.create') }}" class="bg-green-500 text-white px-6 py-3 rounded-md hover:bg-green-600 transition duration-200 ease-in-out">
-                Maak een nieuw product
-            </a>
-        </div>
     </div>    
 </x-base-layout>
 

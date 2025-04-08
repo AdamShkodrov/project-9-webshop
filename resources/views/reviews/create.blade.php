@@ -11,11 +11,25 @@
                 </ul>
             </div>
         @endif
+        
 
         <!-- Form Start -->
-        <form action="{{ route('categories.store') }}" method="POST">
+        <form action="{{ route('reviews.store') }}" method="POST">
+            
             @csrf
 
+            {{-- @dd($products) --}}
+
+            <div class="mb-4">
+                <label for="product_id" class="block text-gray-700">Kies een product:</label>
+                <select name="product_id" id="product_id" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option value="" disabled selected>— Kies een product —</option>
+                    @foreach ($products as $product)
+                        <option value="{{ $product->id }}">{{ $product->id }}: {{ $product->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+    
             <h2 class="text-2xl font-semibold text-gray-800 mb-6">Submit Your Review</h2>
 
             <!-- Title Field -->
@@ -34,20 +48,32 @@
             <div class="mb-6">
                 <label for="rating" class="block text-gray-700 font-medium mb-2">Product Rating</label>
                 <div class="flex space-x-2 justify-center">
-                    <input type="radio" id="star5" name="rating" value="5" class="hidden" />
-                    <label for="star5" class="text-3xl cursor-pointer text-gray-400 hover:text-yellow-500">&#9733;</label>
-
-                    <input type="radio" id="star4" name="rating" value="4" class="hidden" />
-                    <label for="star4" class="text-3xl cursor-pointer text-gray-400 hover:text-yellow-500">&#9733;</label>
-
-                    <input type="radio" id="star3" name="rating" value="3" class="hidden" />
-                    <label for="star3" class="text-3xl cursor-pointer text-gray-400 hover:text-yellow-500">&#9733;</label>
-
-                    <input type="radio" id="star2" name="rating" value="2" class="hidden" />
-                    <label for="star2" class="text-3xl cursor-pointer text-gray-400 hover:text-yellow-500">&#9733;</label>
-
-                    <input type="radio" id="star1" name="rating" value="1" class="hidden" />
-                    <label for="star1" class="text-3xl cursor-pointer text-gray-400 hover:text-yellow-500">&#9733;</label>
+                    <table>
+                        <thead>
+                            <tr>
+                                <!-- Stars (labels for rating) -->
+                                <th>
+                                    <label for="star5" class="text-3xl cursor-pointer">&#9733;</label>
+                                    <label for="star4" class="text-3xl cursor-pointer">&#9733;</label>
+                                    <label for="star3" class="text-3xl cursor-pointer">&#9733;</label>
+                                    <label for="star2" class="text-3xl cursor-pointer">&#9733;</label>
+                                    <label for="star1" class="text-3xl cursor-pointer">&#9733;</label>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <!-- Radio inputs (hidden and controlled by labels) -->
+                                <td>
+                                    <input type="radio" id="star5" name="rating" value="1" class="" />
+                                    <input type="radio" id="star4" name="rating" value="2" class="" />
+                                    <input type="radio" id="star3" name="rating" value="3" class="" />
+                                    <input type="radio" id="star2" name="rating" value="4" class="" />
+                                    <input type="radio" id="star1" name="rating" value="5" class="" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
@@ -58,20 +84,5 @@
                 </button>
             </div>
         </form>
-
     </div>
-
-    <script>
-        // Select all radio buttons
-        const stars = document.querySelectorAll('input[name="rating"]');
-        
-        // Add event listeners to each radio button
-        stars.forEach(star => {
-            star.addEventListener('change', function() {
-                // Log the selected rating for demonstration purposes
-                const selectedRating = document.querySelector('input[name="rating"]:checked').value;
-                console.log('Selected Rating: ' + selectedRating);
-            });
-        });
-    </script>
 </x-base-layout>

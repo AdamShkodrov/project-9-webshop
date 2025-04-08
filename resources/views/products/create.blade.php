@@ -31,13 +31,20 @@
         </div>
 
         <div>
-            <label for="category_id">Category</label>
-            <select name="category_id" id="category_id">
+            <label class="block text-sm font-medium text-gray-700">Categories</label>
+            <div class="space-y-2">
                 @foreach ($categories as $category)
-                <option value="{{ $category->id }}">{{ $category->name }}</option>    
+                <div>
+                    <label>
+                        <input type="checkbox" name="category_id[]" value="{{ $category->id }}" class="mr-2">
+                        {{ $category->name }}
+                    </label>
+                </div>
                 @endforeach
-            </select>
+            </div>
         </div>
+        
+        
     
         <button type="submit">
             Toevoegen

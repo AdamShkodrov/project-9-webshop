@@ -23,7 +23,7 @@ class Product extends Model
 
     public function reviews()
     {
-        return $this->hasMany(Review::class);
+        return $this->hasMany(Review::class, 'review_product', 'product_id'); // Laravel assumes 'product_id' is the foreign key in 'reviews' table
     }
 
     public function categories()

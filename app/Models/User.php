@@ -40,7 +40,7 @@ class User extends Authenticatable
 
     public function reviews()
     {
-        return $this->hasMany(Review::class);
+        return $this->hasMany(Review::class);  // By default, it will look for 'user_id' in the 'reviews' table
     }
 
     public function cartItems()

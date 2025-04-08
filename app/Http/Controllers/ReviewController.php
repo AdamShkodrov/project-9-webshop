@@ -13,24 +13,24 @@ class ReviewController extends Controller
     {
         // Get all reviews
         $reviews = Review::all();
+        $products = Product::all();
     
-        return view('reviews.index', compact('reviews'));
+        return view('reviews.index', compact('reviews', 'products'));
     }
     
-    public function create()
+    public function create(Product $product)
     {
         // Get all reviews and products for the creation form
         $reviews = Review::all();
         $products = Product::all();
     
-        return view('reviews.create', compact('reviews', 'products'));
+        return view('reviews.create', compact('products'));
     }
     
     public function store(ReviewRequest $request)
     {
         $review = new Review();
     
-        // Save the review using the private save method
         $this->save($review, $request);
     
         return redirect('/reviews');
@@ -46,7 +46,8 @@ class ReviewController extends Controller
     
     public function edit(Review $review)
     {
-        return view('reviews.edit', compact('review'));
+        $products = Product::all();
+        return view('reviews.edit', compact('review', 'products'));
     }
     
     public function update(ReviewRequest $request, Review $review)
@@ -69,11 +70,12 @@ class ReviewController extends Controller
     {
         // Set the properties for the review and save it
         $review->title = $request->title;
-        $review->content = $request->content; // Example: assuming reviews have content
-        $review->rating = $request->rating; // Example: assuming reviews have a rating field
+        $review->review = $request->review;
+        $review->rating = $request->rating;
         $review->save();
         
         // Attach any related products (if applicable)
-        $review->products()->attach($request->product_id);
+        $review->product_id = $request->product_id;
+        $review->user_id = $request->user_id;
     }
 }

@@ -17,13 +17,17 @@
     </div>
 
     <div>
-        <label for="product_id">Product</label>
-        <select name="product_id" id="product_id">
+        <label class="block text-sm font-medium text-gray-700">Products</label>
+        <div class="space-y-2 mt-2">
             @foreach ($products as $product)
-            <option value="{{ $product->id }}">{{ $product->name }}</option>    
+            <div class="flex items-center">
+                <input type="checkbox" name="product_id[]" value="{{ $product->id }}" class="mr-2 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                <label for="product_{{ $product->id }}" class="text-gray-800">{{ $product->name }}</label>
+            </div>
             @endforeach
-        </select>
+        </div>
     </div>
+    
 
     <button type="submit">
         Toevoegen

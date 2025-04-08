@@ -2,58 +2,73 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Http\Requests\RoleRequest;
-
 use App\Models\Role;
+use App\Models\Product; // If you want to relate roles to products, you can include this.
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
     public function index()
-
     {
         $roles = Role::all();
+    
         return view('roles.index', compact('roles'));
     }
+
     public function create()
     {
-        return view('roles.create');
+        $users = User::all(); // If you want to relate roles to products, you can include products here.
+    
+        return view('roles.create', compact('users'));
     }
-    public function store(Request $request)
+
+    public function store(RoleRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string|max:255',
-        ]);
-
-        Role::create($request->all());
-
-        return redirect()->route('roles.index')->with('success', 'Role created successfully.');
+        $role = new Role();
+    
+        $this->save($role, $request);
+    
+        return redirect('/roles');
     }
-    public function edit($id)
-    {
-        $role = Role::findOrFail($id);
-        return view('roles.edit', compact('role'));
-    }
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string|max:255',
-        ]);
 
-        $role = Role::findOrFail($id);
-        $role->update($request->all());
-
-        return redirect()->route('roles.index')->with('success', 'Role updated successfully.');
-    }
-    public function destroy($id)
+    public function show(Role $role)
     {
-        $role = Role::findOrFail($id);
+        $users = User::all(); // If needed, you can pass related products here.
+    
+        return view('roles.show', compact('role'));
+    }
+
+    public function edit(Role $role)
+    {
+        $users = User::all(); // If needed, you can pass related products here.
+
+        return view('roles.edit', compact('role', 'users'));
+    }
+
+    public function update(RoleRequest $request, Role $role)
+    {
+        $this->save($role, $request);
+    
+        return redirect('/roles');
+    }
+
+    public function destroy(Role $role)
+    {
         $role->delete();
-
-        return redirect()->route('roles.index')->with('success', 'Role deleted successfully.');
+    
+        return redirect('/roles');
     }
 
+    private function save(Role $role, Request $request)
+    {
+        $role->name = $request->name;
+        $role->save();
+
+        // If roles have a relationship with products (like attaching products), you can do it here.
+        if ($request->has('product_id')) {
+            $role->products()->attach($request->product_id);
+        }
+    }
 }

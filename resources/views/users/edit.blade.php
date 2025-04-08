@@ -1,42 +1,43 @@
+<!-- Foutmeldingen weergeven -->
+@if ($errors->any())
+    <div>
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
-<div class="container">
-    <h1>Bewerk Gebruiker</h1>
-    <form action="{{ route('users.update', $users->id) }}" method="POST">
-        @csrf
-        @method('POST')
+<!-- Formulier -->
+<form action="/users/update/{{$user->id}}" method="POST">
+    @csrf
 
-        <div class="form-group">
-            <label for="name">Naam</label>
-            <input type="text" name="name" id="name" class="form-control" value="{{ $users->name }}" required>
-        </div>
+    <div>
+        <label for="name">Naam</label>
+        <input type="text" name="name" id="name" value="{{ $user->name }}" required>
+    </div>
 
-        <div class="form-group">
-            <label for="email">E-mail</label>
-            <input type="email" name="email" id="email" class="form-control" value="{{ $users->email }}" required>
-        </div>
+    <div>
+        <label for="email">E-mail</label>
+        <input type="email" name="email" id="email" value="{{ $user->email }}" required>
+    </div>
 
-        <div class="form-group">
-            <label for="role">Rol</label>
-            <div id="role">
-                @foreach($roles as $role)
-                    <div class="form-check">
-                        <input 
-                            type="checkbox" 
-                            name="roles[]" 
-                            id="role_{{ $role->id }}" 
-                            value="{{ $role->id }}" 
-                            class="form-check-input" 
-                            {{ $users->role_id == $role->id ? 'checked' : '' }} 
-                       ]
-                        >
-                        <label for="role_{{ $role->id }}" class="form-check-label">
-                            {{ $role->name }}
-                        </label>
-                    </div>
-                @endforeach
+    <div>
+        <label class="block text-sm font-medium text-gray-700">Rollen</label>
+        <div class="space-y-2 mt-2">
+            @foreach ($roles as $role)
+            <div class="flex items-center">
+                <!-- Check if the user has this role and set the checkbox as checked if true -->
+                <input type="checkbox" name="roles[]" value="{{ $role->id }}" class="mr-2 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                {{ $users->roles->pluck('id')->contains($role->id) ? 'checked' : '' }}>
+                <label for="role_{{ $role->id }}" class="text-gray-800">{{ $role->name }}</label>
             </div>
+            @endforeach
         </div>
+    </div>
 
-        <button type="submit" class="btn btn-primary">Opslaan</button>
-    </form>
-</div>
+    <button type="submit">
+        Opslaan
+    </button>
+</form>
